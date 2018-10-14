@@ -65,8 +65,13 @@ void Utilisateur::setNom(const string& nom) {
 
 void Utilisateur::calculerTotalDepenses() {
 	
-	for (unsigned i = 0; i < depenses_.size(); i++)
-		totalDepense_ += depenses_[i]->getMontant();
+	for (unsigned i = 0; i < depenses_.size(); i++) {
+
+		if (depenses_[i]->getType() == individuelle)
+			totalDepense_ += depenses_[i]->getMontant();
+		else
+			totalDepense_ += static_cast<DepenseGroupe*>(depenses_[i])->getMontantPersonnel();
+	}
 }
 
 Utilisateur& Utilisateur::operator=(Utilisateur * utilisateur)
@@ -99,7 +104,9 @@ Utilisateur& Utilisateur::operator+=(Depense* depense) {
 ostream& operator<<(ostream& os, const Utilisateur& utilisateur)
 
 {
-	os << "\t Utilisateur " << utilisateur.nom_ << " (" << utilisateur.type_
+	string typeUtilisateur[] = { "Regulier","Premium" };
+
+	os << "\t Utilisateur " << utilisateur.nom_ << " (" << typeUtilisateur[utilisateur.type_]
 		<< ") a developpe pour un total de : " << utilisateur.getTotalDepenses()
 		<< ", PolyCount prend en interet : " << utilisateur.interet_
 		<< " , voici les depenses: " << endl;

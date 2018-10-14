@@ -122,7 +122,7 @@ int main() {
 	payePour3.push_back(max);
 	vacances.ajouterDepense(d8, louis, payePour3); 
 	
-	//vacances.calculerTotalDepense();
+	vacances.calculerTotalDepense();
 	//vacances.equilibrerComptes(); 
 
 	//ajout d'un utilisateur regulier deja groupe au groupe collocation
@@ -163,6 +163,6 @@ int main() {
 	delete allan;
 	delete clemence; 
 	
-	system("pause");
+	//system("pause");
 	return 0;
 }

@@ -11,7 +11,7 @@
 Groupe::Groupe() {
 	nom_ = ""; 
 }
-Groupe::Groupe(const string& nom) : nom_(nom) {
+Groupe::Groupe(const string& nom) : nom_(nom),totalDepenses_(0.0) {
 }
 
 Groupe::~Groupe() {
@@ -82,7 +82,7 @@ Groupe& Groupe::ajouterDepense(Depense* depense, Utilisateur* payePar, vector<Ut
 			existe = aTrouveUtilisateur(payePour[i], utilisateurs_);
 
 			if (existe == true) {
-				//static_cast<DepenseGroupe*>(depense)->setNombreParticipants(payePour.size());
+				static_cast<DepenseGroupe*>(depense)->setNombreParticipants(payePour.size()+1);
 				payePour[i]->operator+=(depense);
 				payePour[i]->calculerTotalDepenses();
 
@@ -184,11 +184,11 @@ void Groupe::calculerTotalDepense() {
 	for (unsigned i = 0; i < utilisateurs_.size(); i++) {
 		utilisateurs_[i]->calculerTotalDepenses();
 
-		depenseTmp = utilisateurs_[i]->getDepenses();
+/*		depenseTmp = utilisateurs_[i]->getDepenses();
 
 		for (unsigned j = 0; j < depenseTmp.size(); j++)
-			if (depenseTmp[j]->getType() == Premium)
-				totalDepenses_ += depenseTmp[j]->getMontant();
+			if (depenseTmp[j]->getType() == Premium)*/
+		totalDepenses_ += utilisateurs_[i]->getTotalDepenses() ;
 
 	}
 
