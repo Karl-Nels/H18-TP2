@@ -54,17 +54,14 @@ void Groupe::setNom(const string& nom) {
 
 
 
-bool aTrouveDepense(Depense* depense, Utilisateur* utilisateur) {
+bool aTrouveUtilisateur(Utilisateur* utilisateur, vector<Utilisateur*> groupe_) {
 
 	bool estEgal = false;
 	vector<Depense *> depenseTmp;
-	depenseTmp = utilisateur->getDepenses();
 
-	for (unsigned i = 0; i < depenseTmp.size(); i++) {
-
-		if (depense == depenseTmp[i])
+	for (unsigned i = 0; i < groupe_.size(); i++)
+		if (utilisateur == groupe_[i])
 			estEgal = true;
-	}
 
 	return estEgal;
 }
@@ -73,14 +70,16 @@ bool aTrouveDepense(Depense* depense, Utilisateur* utilisateur) {
 Groupe& Groupe::ajouterDepense(Depense* depense, Utilisateur* payePar, vector<Utilisateur*> payePour)
 {
 
-	bool EstImplique = false;
+	bool existe = false;
 
 	if (depense->getType() == groupe) {
 
-		for (unsigned i = 0; i < payePour.size(); i++) {
-			EstImplique = aTrouveDepense(depense, payePour[i]);
+		existe = aTrouveUtilisateur(payePar, utilisateurs_);
 
-			if (EstImplique == true) {
+		for (unsigned i = 0; i < payePour.size(); i++) {
+			existe = aTrouveUtilisateur(payePour[i], utilisateurs_);
+
+			if (existe == true) {
 				payePour[i]->operator+=(depense);
 				payePour[i]->calculerTotalDepenses();
 
@@ -91,8 +90,8 @@ Groupe& Groupe::ajouterDepense(Depense* depense, Utilisateur* payePar, vector<Ut
 		depenses_.push_back(static_cast<DepenseGroupe*>(depense));
 	}
 	else if ((depense->getType() == individuelle) || EstImplique == false)
-		cout << " Erreur: vous tentez d'ajouter une depens individuelle "
-		<< "au groupe ou alors les personnes impliquees dans la"
+		cout << " Erreur: vous tentez d'ajouter une depense individuelle "
+		<< "au groupe ou alors les personnes impliquees dans la "
 		<< "depense groupe ne sont pas dans le groupe" << endl;
 
 	return *this;
@@ -183,13 +182,9 @@ void Groupe::calculerTotalDepense() {
 
 		depenseTmp = utilisateurs_[i]->getDepenses();
 
-		for (unsigned j = 0; j < depenseTmp.size(); j++) {
-
-			if (depenseTmp[j]->getType() == Premium) {
-
+		for (unsigned j = 0; j < depenseTmp.size(); j++)
+			if (depenseTmp[j]->getType() == Premium)
 				totalDepenses_ += depenseTmp[j]->getMontant();
-			}
-		}
 
 	}
 
