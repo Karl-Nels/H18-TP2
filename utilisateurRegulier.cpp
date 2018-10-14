@@ -30,10 +30,10 @@ void UtilisateurRegulier::setEtatGroupe(bool etat) {
 
 UtilisateurRegulier& UtilisateurRegulier::operator=(Utilisateur* utilisateur) {
 
-	//*this = utilisateur;
-	this->Utilisateur::operator=(utilisateur);
-	 this->estGroupe_ = false;
-
+	if (this != utilisateur) {
+		this->Utilisateur::operator=(utilisateur);
+		this->estGroupe_ = false;
+	}
 	 return *this;
 }
 

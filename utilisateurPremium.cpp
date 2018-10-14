@@ -39,7 +39,8 @@ void UtilisateurPremium::calculerTaux() {
 //Surcharge d'operateurs
 UtilisateurPremium& UtilisateurPremium::operator= (Utilisateur* utilisateur) {
 
-	this->Utilisateur::operator=(utilisateur);
+	if(this != utilisateur)
+		this->Utilisateur::operator=(utilisateur);
 
 	return *this;
 }
@@ -47,7 +48,7 @@ UtilisateurPremium& UtilisateurPremium::operator= (Utilisateur* utilisateur) {
 ostream& operator << (ostream& os, const UtilisateurPremium& utilisateur) {
 	//utilisateur.calculerTaux();
 	os << static_cast<Utilisateur>(utilisateur)
-	   << "taux final de : " << utilisateur.getTaux() << "%)" << endl << endl;
+	   << "(taux final de : " << utilisateur.getTaux() << "%)" << endl << endl;
 
 	return os;
 }

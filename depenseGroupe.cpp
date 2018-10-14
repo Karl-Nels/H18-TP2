@@ -41,7 +41,7 @@ void DepenseGroupe::setNombreParticipants(unsigned int nombre) {
 //Surcharge de l'operateur << pour affichage
 
 ostream& operator<<(ostream& os, const DepenseGroupe& depense) {
-	os << "Depense de groupe : "
+	os << "\t\t Depense de groupe : "
 	   << "\t" << static_cast<Depense>(depense)
 	   << " fait par : " << depense.getNombreParticipants() << " soit :"
 	   << depense.getMontantPersonnel() << " par personne." << endl;

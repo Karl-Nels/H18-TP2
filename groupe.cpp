@@ -71,17 +71,21 @@ Groupe& Groupe::ajouterDepense(Depense* depense, Utilisateur* payePar, vector<Ut
 {
 
 	bool existe = false;
+	existe = aTrouveUtilisateur(payePar, utilisateurs_);
+	//payePour.push_back(payePar);
 
-	if (depense->getType() == groupe) {
-
-		existe = aTrouveUtilisateur(payePar, utilisateurs_);
-
+	if ((depense->getType() == groupe) && (existe == true)) {
+		
 		for (unsigned i = 0; i < payePour.size(); i++) {
+			//payePour[i] = static_cast<UtilisateurPremium*>(payePour[i]);
+
 			existe = aTrouveUtilisateur(payePour[i], utilisateurs_);
 
 			if (existe == true) {
+				//static_cast<DepenseGroupe*>(depense)->setNombreParticipants(payePour.size());
 				payePour[i]->operator+=(depense);
 				payePour[i]->calculerTotalDepenses();
+
 
 			}
 		}
@@ -89,10 +93,10 @@ Groupe& Groupe::ajouterDepense(Depense* depense, Utilisateur* payePar, vector<Ut
 		payePar->calculerTotalDepenses();
 		depenses_.push_back(static_cast<DepenseGroupe*>(depense));
 	}
-	else if ((depense->getType() == individuelle) || EstImplique == false)
-		cout << " Erreur: vous tentez d'ajouter une depense individuelle "
+	else if ((depense->getType() == individuelle) || existe == false)
+		cout << "Erreur: vous tentez d'ajouter une depense individuelle "
 		<< "au groupe ou alors les personnes impliquees dans la "
-		<< "depense groupe ne sont pas dans le groupe" << endl;
+		<< "depense groupe ne sont pas dans le groupe" << endl << endl;
 
 	return *this;
 }
@@ -115,7 +119,7 @@ Groupe& Groupe::operator+=(Utilisateur* utilisateur)
 
 		if (userTmp->estGroupe() == true)
 			cout << "Erreur : L'utilisateur " << userTmp->getNom()
-			<< "n'est pas souscrit a un abonnement premium, et est deja groupe." << endl;
+			<< " n'est pas souscrit a un abonnement premium, et est deja groupe." << endl;
 		else {
 			userTmp->setEtatGroupe(true);
 			utilisateurs_.push_back(userTmp);
@@ -193,12 +197,15 @@ void Groupe::calculerTotalDepense() {
 // Methode d'affichage
 ostream & operator<<(ostream& os, const Groupe& groupe)
 {
-	os << "L'evenement nomme : " << groupe.nom_ << "a coute un total de : " << groupe.getTotalDepenses()
-		<< " voici les utilisateurs et toutes leur depenses : " << endl;
+	os << "L'evenement nomme : " << groupe.nom_ << " a coute un total de : " << groupe.getTotalDepenses()
+		<< " voici les utilisateurs et toutes leurs depenses : " << endl;
 
 	for (unsigned i = 0; i < groupe.utilisateurs_.size(); i++) {
-
-		os << *groupe.utilisateurs_[i];
+		
+		if(groupe.utilisateurs_[i]->getType() == Premium)
+			os << *(static_cast<UtilisateurPremium*>(groupe.utilisateurs_[i])) << endl << endl;
+		else
+			os << *(static_cast<UtilisateurRegulier*>(groupe.utilisateurs_[i])) << endl << endl;
 
 		}
 

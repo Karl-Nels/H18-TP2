@@ -11,6 +11,7 @@
 #include <iostream>
 #include <vector>
 #include"depenseGroupe.h"
+#include"depenseIndividuelle.h"
 #include"depense.h"
 
 const double TAUX_REGULIER = 0.05;

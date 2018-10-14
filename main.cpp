@@ -121,10 +121,9 @@ int main() {
 	payePour3.push_back(alex);
 	payePour3.push_back(max);
 	vacances.ajouterDepense(d8, louis, payePour3); 
-
-	/*
-	vacances.calculerTotalDepense();
-	vacances.equilibrerComptes(); 
+	
+	//vacances.calculerTotalDepense();
+	//vacances.equilibrerComptes(); 
 
 	//ajout d'un utilisateur regulier deja groupe au groupe collocation
 	collocation += clemence; 
@@ -132,7 +131,7 @@ int main() {
 
 	//affichage du groupe vacances 
 	cout << vacances; 
-
+	
 
 	//fin du programme 
 	delete d1; 
@@ -163,7 +162,7 @@ int main() {
 	delete max; 
 	delete allan;
 	delete clemence; 
-	*/
+	
 	system("pause");
 	return 0;
 }

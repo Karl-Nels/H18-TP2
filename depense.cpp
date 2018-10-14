@@ -81,7 +81,7 @@ Depense& Depense::operator=(const Depense & depense)
 }
 ostream& operator<<(ostream& os, const Depense& depense) {
 
-	os << "Achat fait (a " << *depense.lieu_ << ") : " << depense.nom_
+	os << " Achat fait (a " << *depense.lieu_ << ") : " << depense.nom_
 		<< " Prix : " << depense.montant_;
 
 		return os;

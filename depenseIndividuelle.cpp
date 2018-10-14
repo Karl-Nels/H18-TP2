@@ -8,7 +8,8 @@ DepenseIndividuelle::DepenseIndividuelle(const string & nom, double montant, con
 
 
 ostream& operator<< (ostream& os, const DepenseIndividuelle& depense) {
-	os << "Depense individuelle : " << endl
-		<< "\t" << static_cast<Depense> (depense);
+	os << "\t\t Depense individuelle : "
+	   << static_cast<Depense> (depense);
+	os << endl;
 	return os; 
  }

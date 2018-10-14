@@ -16,7 +16,6 @@ Utilisateur::Utilisateur(const string& nom, TypeUtilisateur type): nom_(nom),int
 
 Utilisateur::Utilisateur(const Utilisateur& utilisateur) {
 
-
 	interet_ = utilisateur.interet_;
 	nom_ = utilisateur.nom_;
 	type_ = utilisateur.type_;
@@ -100,13 +99,18 @@ Utilisateur& Utilisateur::operator+=(Depense* depense) {
 ostream& operator<<(ostream& os, const Utilisateur& utilisateur)
 
 {
-	os << " Utilisateur " << utilisateur.nom_ << " (" << utilisateur.type_
+	os << "\t Utilisateur " << utilisateur.nom_ << " (" << utilisateur.type_
 		<< ") a developpe pour un total de : " << utilisateur.getTotalDepenses()
-		<< ", PolyCount prend en interet :" << utilisateur.interet_
-		<< ", voici les depenses: " << endl;
+		<< ", PolyCount prend en interet : " << utilisateur.interet_
+		<< " , voici les depenses: " << endl;
 	
-	for (unsigned i = 0; i < utilisateur.depenses_.size(); i++ ) 
-				os << *utilisateur.depenses_[i];
+	for (unsigned i = 0; i < utilisateur.depenses_.size(); i++)
+		if (utilisateur.depenses_[i]->getType() == individuelle)
+			os << *(static_cast<DepenseIndividuelle*>(utilisateur.depenses_[i]));
+		else
+			os << *(static_cast<DepenseGroupe*>(utilisateur.depenses_[i]));
+
+	os << endl;
 
 /*	if (TAUX_REGULIER != utilisateur.getInteret())
 		os << "taux final de : " << utilisateur.getInteret() << "%)" << endl << endl;
