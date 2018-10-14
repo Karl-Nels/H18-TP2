@@ -14,7 +14,7 @@ using namespace std;
 
 int main() {
 
-	DepenseGroupe* depense1 = new DepenseGroupe("cafe", 3.5, "Montreal");
+/*	DepenseGroupe* depense1 = new DepenseGroupe("cafe", 3.5, "Montreal");
 	DepenseGroupe depense2(*depense1);
 	DepenseGroupe depense3;
 	depense3 = *depense1;
@@ -43,9 +43,9 @@ int main() {
 
 	Paul = albert;
 
-	cout << user2;
+	cout << user2;*/
 //	cout << user3;
-/*
+
 	//initialisation des utilisateurs et des comptes utilisateurs: 
 	UtilisateurPremium* alex = new UtilisateurPremium("alex");
 	UtilisateurPremium* max = new UtilisateurPremium("Max");
@@ -87,6 +87,16 @@ int main() {
 	*henri += d5; 
 
 	//ajout des depenses groupe
+	*alex += d6;
+	*max += d6 ;
+	*max += d7;
+	*henri += d7;
+	*albert += d7;
+	*charles += d6;
+	*charles += d7;
+	*allan += d6;
+	*allan += d7;
+	*clemence += d6;
 
 	//vecteur pour le partage de la depense
 	vector<Utilisateur*> payePour1;
@@ -112,7 +122,7 @@ int main() {
 	payePour3.push_back(max);
 	vacances.ajouterDepense(d8, louis, payePour3); 
 
-	
+	/*
 	vacances.calculerTotalDepense();
 	vacances.equilibrerComptes(); 
 

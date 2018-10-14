@@ -52,19 +52,50 @@ void Groupe::setNom(const string& nom) {
 	nom_ = nom;
 }
 
+
+
+bool aTrouveDepense(Depense* depense, Utilisateur* utilisateur) {
+
+	bool estEgal = false;
+	vector<Depense *> depenseTmp;
+	depenseTmp = utilisateur->getDepenses();
+
+	for (unsigned i = 0; i < depenseTmp.size(); i++) {
+
+		if (depense == depenseTmp[i])
+			estEgal = true;
+	}
+
+	return estEgal;
+}
+
 // Methodes d'ajout
 Groupe& Groupe::ajouterDepense(Depense* depense, Utilisateur* payePar, vector<Utilisateur*> payePour)
 {
-	vector<Depense*> depenseTmp;
-	
-	if (depense->getType() == groupe) {
-		for (unsigned i = 0; i < payePour.size(); i++) {		
-			depenseTmp = payePour[i]->getDepenses();
 
+	bool EstImplique = false;
+
+	if (depense->getType() == groupe) {
+
+		for (unsigned i = 0; i < payePour.size(); i++) {
+			EstImplique = aTrouveDepense(depense, payePour[i]);
+
+			if (EstImplique == true) {
+				payePour[i]->operator+=(depense);
+				payePour[i]->calculerTotalDepenses();
 
 			}
 		}
-	
+		payePar->operator+=(depense);
+		payePar->calculerTotalDepenses();
+		depenses_.push_back(static_cast<DepenseGroupe*>(depense));
+	}
+	else if ((depense->getType() == individuelle) || EstImplique == false)
+		cout << " Erreur: vous tentez d'ajouter une depens individuelle "
+		<< "au groupe ou alors les personnes impliquees dans la"
+		<< "depense groupe ne sont pas dans le groupe" << endl;
+
+	return *this;
 }
 
 Groupe& Groupe::operator+=(Utilisateur* utilisateur)
@@ -79,8 +110,20 @@ Groupe& Groupe::operator+=(Utilisateur* utilisateur)
 			utilisateurs_.push_back(userTmp);
 
 	}
-	else
-		utilisateurs_.push_back(utilisateur);
+	else{
+
+		UtilisateurRegulier * userTmp = static_cast<UtilisateurRegulier *>(utilisateur);
+
+		if (userTmp->estGroupe() == true)
+			cout << "Erreur : L'utilisateur " << userTmp->getNom()
+			<< "n'est pas souscrit a un abonnement premium, et est deja groupe." << endl;
+		else {
+			userTmp->setEtatGroupe(true);
+			utilisateurs_.push_back(userTmp);
+		}
+}
+
+	return *this;
 }
 
 void Groupe::equilibrerComptes() {
@@ -155,5 +198,15 @@ void Groupe::calculerTotalDepense() {
 // Methode d'affichage
 ostream & operator<<(ostream& os, const Groupe& groupe)
 {
-	
+	os << "L'evenement nomme : " << groupe.nom_ << "a coute un total de : " << groupe.getTotalDepenses()
+		<< " voici les utilisateurs et toutes leur depenses : " << endl;
+
+	for (unsigned i = 0; i < groupe.utilisateurs_.size(); i++) {
+
+		os << *groupe.utilisateurs_[i];
+
+		}
+
+
+		return os;
 }
