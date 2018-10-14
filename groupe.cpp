@@ -72,6 +72,8 @@ Groupe& Groupe::ajouterDepense(Depense* depense, Utilisateur* payePar, vector<Ut
 
 	bool existe = false;
 	existe = aTrouveUtilisateur(payePar, utilisateurs_);
+	DepenseGroupe* cDepense = static_cast<DepenseGroupe*>(depense);
+
 	//payePour.push_back(payePar);
 
 	if ((depense->getType() == groupe) && (existe == true)) {
@@ -82,15 +84,22 @@ Groupe& Groupe::ajouterDepense(Depense* depense, Utilisateur* payePar, vector<Ut
 			existe = aTrouveUtilisateur(payePour[i], utilisateurs_);
 
 			if (existe == true) {
-				static_cast<DepenseGroupe*>(depense)->setNombreParticipants(payePour.size()+1);
-				payePour[i]->operator+=(depense);
+
+//				DepenseGroupe* cDepense = static_cast<DepenseGroupe*>(depense);
+				
+				cDepense->setNombreParticipants(payePour.size()+1);
+				payePour[i]->operator+=(cDepense);
 				payePour[i]->calculerTotalDepenses();
-
-
+				/*double taux =static_cast<UtilisateurPremium*>(payePour[i])->getTaux();
+				double total = static_cast<UtilisateurPremium*>(payePour[i])->getTotalDepenses();
+				static_cast<UtilisateurPremium*>(payePour[i])->ajouterInteret(taux * total);*/
+				totalDepenses_ += payePour[i]->getTotalDepenses();
 			}
 		}
-		payePar->operator+=(depense);
+
+		payePar->operator+=(cDepense);
 		payePar->calculerTotalDepenses();
+		totalDepenses_ += payePar->getTotalDepenses();
 		depenses_.push_back(static_cast<DepenseGroupe*>(depense));
 	}
 	else if ((depense->getType() == individuelle) || existe == false)
@@ -191,7 +200,7 @@ void Groupe::calculerTotalDepense() {
 		totalDepenses_ += utilisateurs_[i]->getTotalDepenses() ;
 
 	}
-
+	
 }
 
 // Methode d'affichage

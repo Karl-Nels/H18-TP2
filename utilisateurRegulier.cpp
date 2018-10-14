@@ -2,7 +2,7 @@
 
 //Constructeurs
 UtilisateurRegulier::UtilisateurRegulier(const string& nom): estGroupe_(false),Utilisateur(nom, Regulier){
-	this->ajouterInteret(TAUX_REGULIER);
+	//this->ajouterInteret(TAUX_REGULIER);
 }
 
 UtilisateurRegulier::UtilisateurRegulier(const Utilisateur& utilisateur) {

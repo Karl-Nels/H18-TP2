@@ -87,7 +87,7 @@ int main() {
 	*henri += d5; 
 
 	//ajout des depenses groupe
-	*alex += d6;
+	/**alex += d6;
 	*max += d6 ;
 	*max += d7;
 	*henri += d7;
@@ -96,7 +96,7 @@ int main() {
 	*charles += d7;
 	*allan += d6;
 	*allan += d7;
-	*clemence += d6;
+	*clemence += d6;*/
 
 	//vecteur pour le partage de la depense
 	vector<Utilisateur*> payePour1;
