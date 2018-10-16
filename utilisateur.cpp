@@ -64,7 +64,7 @@ void Utilisateur::setNom(const string& nom) {
 }
 
 void Utilisateur::calculerTotalDepenses() {
-	
+	totalDepense_ = 0;
 	for (unsigned i = 0; i < depenses_.size(); i++) {
 
 		if (depenses_[i]->getType() == individuelle)

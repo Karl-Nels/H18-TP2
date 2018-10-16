@@ -69,7 +69,7 @@ bool aTrouveUtilisateur(Utilisateur* utilisateur, vector<Utilisateur*> groupe_) 
 // Methodes d'ajout
 Groupe& Groupe::ajouterDepense(Depense* depense, Utilisateur* payePar, vector<Utilisateur*> payePour)
 {
-
+	totalDepenses_ = 0;
 	bool existe = false;
 	existe = aTrouveUtilisateur(payePar, utilisateurs_);
 	DepenseGroupe* cDepense = static_cast<DepenseGroupe*>(depense);
@@ -80,7 +80,6 @@ Groupe& Groupe::ajouterDepense(Depense* depense, Utilisateur* payePar, vector<Ut
 		
 		for (unsigned i = 0; i < payePour.size(); i++) {
 			//payePour[i] = static_cast<UtilisateurPremium*>(payePour[i]);
-
 			existe = aTrouveUtilisateur(payePour[i], utilisateurs_);
 
 			if (existe == true) {
@@ -90,22 +89,27 @@ Groupe& Groupe::ajouterDepense(Depense* depense, Utilisateur* payePar, vector<Ut
 				cDepense->setNombreParticipants(payePour.size()+1);
 				payePour[i]->operator+=(cDepense);
 				payePour[i]->calculerTotalDepenses();
+				depenses_.push_back(cDepense);
 				/*double taux =static_cast<UtilisateurPremium*>(payePour[i])->getTaux();
-				double total = static_cast<UtilisateurPremium*>(payePour[i])->getTotalDepenses();
 				static_cast<UtilisateurPremium*>(payePour[i])->ajouterInteret(taux * total);*/
-				totalDepenses_ += payePour[i]->getTotalDepenses();
 			}
+
+		/*	for (unsigned int i = 0; i < payePour.size(); i++) {
+
+
+			}*/
 		}
 
 		payePar->operator+=(cDepense);
 		payePar->calculerTotalDepenses();
-		totalDepenses_ += payePar->getTotalDepenses();
-		depenses_.push_back(static_cast<DepenseGroupe*>(depense));
+		depenses_.push_back(cDepense);
+
 	}
 	else if ((depense->getType() == individuelle) || existe == false)
 		cout << "Erreur: vous tentez d'ajouter une depense individuelle "
 		<< "au groupe ou alors les personnes impliquees dans la "
 		<< "depense groupe ne sont pas dans le groupe" << endl << endl;
+
 
 	return *this;
 }
@@ -188,25 +192,19 @@ void Groupe::equilibrerComptes() {
 
 void Groupe::calculerTotalDepense() {
 
-	vector<Depense*> depenseTmp;
-
-	for (unsigned i = 0; i < utilisateurs_.size(); i++) {
+	for (unsigned i = 0; i < utilisateurs_.size(); i++)
 		utilisateurs_[i]->calculerTotalDepenses();
 
-/*		depenseTmp = utilisateurs_[i]->getDepenses();
-
-		for (unsigned j = 0; j < depenseTmp.size(); j++)
-			if (depenseTmp[j]->getType() == Premium)*/
-		totalDepenses_ += utilisateurs_[i]->getTotalDepenses() ;
-
-	}
+	for (unsigned i = 0; i < depenses_.size(); i++)
+		totalDepenses_ += depenses_[i]->getMontantPersonnel();
 	
 }
 
 // Methode d'affichage
 ostream & operator<<(ostream& os, const Groupe& groupe)
 {
-	os << "L'evenement nomme : " << groupe.nom_ << " a coute un total de : " << groupe.getTotalDepenses()
+	os << "L'evenement nomme : " << groupe.nom_ << " a coute un total (en terme depenses groupees) : "
+		<< groupe.getTotalDepenses()
 		<< " voici les utilisateurs et toutes leurs depenses : " << endl;
 
 	for (unsigned i = 0; i < groupe.utilisateurs_.size(); i++) {
