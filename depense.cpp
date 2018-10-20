@@ -16,7 +16,7 @@ Depense::Depense(const string& nom, double montant, const string& lieu,
 Depense::Depense(const Depense& depense): nom_(depense.nom_),
 montant_(depense.montant_),type_(depense.type_) {
 
-	lieu_ = new string(*depense.getLieu()); // OU lieu_ = depense.lieu_ ??;
+	lieu_ = new string(*depense.lieu_); // OU lieu_ = depense.getLieu() ??;
 
 }
 

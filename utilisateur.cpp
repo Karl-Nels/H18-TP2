@@ -96,6 +96,7 @@ void Utilisateur::ajouterInteret(double montant) {
 Utilisateur& Utilisateur::operator+=(Depense* depense) {
 
 	depenses_.push_back(depense);
+	
 
 	return *this;
 }
@@ -119,16 +120,6 @@ ostream& operator<<(ostream& os, const Utilisateur& utilisateur)
 
 	os << endl;
 
-/*	if (TAUX_REGULIER != utilisateur.getInteret())
-		os << "taux final de : " << utilisateur.getInteret() << "%)" << endl << endl;
-		
-	utilisateur.depenses_[i]->getMontant();
-
-		os << " Achat : " << utilisateur.depenses_[i]->getNom()
-		   << " Montant : " << utilisateur.depenses_[i]->getMontant()
-		   << " Lieu : " << *utilisateur.depenses_[i]->getLieu()
-		   << " Type : " << utilisateur.depenses_[i]->getType()
-		   << " Interet : " << utilisateur.interet_ << endl << endl;*/
 
 	return os;
 }

@@ -154,13 +154,13 @@ int main() {
 	d9 = nullptr;
 	
 	delete alex; 
-	delete charles; 
+//	delete charles; 
  	delete henri; 
 	delete louis; 
 
 	delete albert; 
 	delete max; 
-	delete allan;
+//	delete allan;
 	delete clemence; 
 	
 	//system("pause");

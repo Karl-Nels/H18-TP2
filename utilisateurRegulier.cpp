@@ -40,8 +40,6 @@ UtilisateurRegulier& UtilisateurRegulier::operator=(Utilisateur* utilisateur) {
 ostream& operator<< (ostream& os, const UtilisateurRegulier& utilisateur) {
 	
 	os << static_cast<Utilisateur>(utilisateur);
-	/*if(utilisateur.estGroupe_)
-		os << "Appartient deja a un groupe: " << utilisateur.estGroupe_ << endl;*/
 
 	return os;
 }

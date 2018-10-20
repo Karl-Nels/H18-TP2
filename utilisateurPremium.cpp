@@ -2,7 +2,7 @@
 #include <math.h>
 
 //Constructeurs
-UtilisateurPremium::UtilisateurPremium(const string& nom): Utilisateur::Utilisateur(nom, Premium), joursRestants_(30),taux_(0.0) {
+UtilisateurPremium::UtilisateurPremium(const string& nom): Utilisateur::Utilisateur(nom, Premium), joursRestants_(30),taux_(0.05) {
 }
 
 UtilisateurPremium::UtilisateurPremium(const Utilisateur& utilisateur) {
@@ -31,9 +31,9 @@ void UtilisateurPremium::setJoursRestants(unsigned int joursRestants) {
 
 
 void UtilisateurPremium::calculerTaux() {
-	
-	taux_ -= ceil((getNombreDepenses() / 2) - 1) / 100;
- //	this->ajouterInteret(taux_*getTotalDepenses());
+	unsigned int nbDepenses = getNombreDepenses();
+
+	taux_ -=  (floor(nbDepenses / 2) / 100);
 }
 
 //Surcharge d'operateurs
@@ -48,7 +48,7 @@ UtilisateurPremium& UtilisateurPremium::operator= (Utilisateur* utilisateur) {
 ostream& operator << (ostream& os, const UtilisateurPremium& utilisateur) {
 	//utilisateur.calculerTaux();
 	os << static_cast<Utilisateur>(utilisateur)
-	   << "(taux final de : " << utilisateur.getTaux() << "%)" << endl << endl;
+	   << "(taux final de : " << utilisateur.getTaux()*100 << "%)" << endl << endl;
 
 	return os;
 }

@@ -79,11 +79,10 @@ Groupe& Groupe::ajouterDepense(Depense* depense, Utilisateur* payePar, vector<Ut
 	if ((depense->getType() == groupe) && (existe == true)) {
 		
 		for (unsigned i = 0; i < payePour.size(); i++) {
-			//payePour[i] = static_cast<UtilisateurPremium*>(payePour[i]);
+
 			existe = aTrouveUtilisateur(payePour[i], utilisateurs_);
 
 			if (existe == true) {
-
 //				DepenseGroupe* cDepense = static_cast<DepenseGroupe*>(depense);
 				
 				cDepense->setNombreParticipants(payePour.size()+1);
@@ -92,12 +91,17 @@ Groupe& Groupe::ajouterDepense(Depense* depense, Utilisateur* payePar, vector<Ut
 				depenses_.push_back(cDepense);
 				/*double taux =static_cast<UtilisateurPremium*>(payePour[i])->getTaux();
 				static_cast<UtilisateurPremium*>(payePour[i])->ajouterInteret(taux * total);*/
+
+				/*if (payePour[i]->getType() == Premium) {
+
+					static_cast<UtilisateurPremium *>(payePour[i])->calculerTaux();
+						
+				}*/
+					
+
 			}
 
-		/*	for (unsigned int i = 0; i < payePour.size(); i++) {
 
-
-			}*/
 		}
 
 		payePar->operator+=(cDepense);
@@ -105,11 +109,11 @@ Groupe& Groupe::ajouterDepense(Depense* depense, Utilisateur* payePar, vector<Ut
 		depenses_.push_back(cDepense);
 
 	}
-	else if ((depense->getType() == individuelle) || existe == false)
+	else if ((depense->getType() == individuelle) || existe == false) {
 		cout << "Erreur: vous tentez d'ajouter une depense individuelle "
-		<< "au groupe ou alors les personnes impliquees dans la "
-		<< "depense groupe ne sont pas dans le groupe" << endl << endl;
-
+			<< "au groupe ou alors les personnes impliquees dans la "
+			<< "depense groupe ne sont pas dans le groupe" << endl << endl;
+	}
 
 	return *this;
 }
@@ -169,7 +173,13 @@ void Groupe::equilibrerComptes() {
 			transferts_.push_back(new Transfert(-min, utilisateurs_[indexMin], utilisateurs_[indexMax]));
 			comptes_[indexMax] += min;
 			comptes_[indexMin] = 0;
-	
+
+		/*	if (utilisateurs_[indexMax]->getType() == Premium) {
+				double tauxTmp = static_cast<UtilisateurPremium*>(utilisateurs_[indexMax])->getTaux();
+				static_cast<UtilisateurPremium*>(utilisateurs_[indexMax])->ajouterInteret(tauxTmp * utilisateurs_[indexMax]->getTotalDepenses());
+
+			}*/
+
 		}
 		else if (-min > max  && min != 0 && max != 0) {
 			transferts_.push_back(new Transfert(max, utilisateurs_[indexMin], utilisateurs_[indexMax]));
@@ -177,6 +187,17 @@ void Groupe::equilibrerComptes() {
 			comptes_[indexMin] += max;
 			
 		}
+
+		vector<Depense*> depenseMaxTmp = utilisateurs_[indexMax]->getDepenses();
+		double total = 0.0;
+
+		for (unsigned int i = 0; i < depenseMaxTmp.size(); i++)
+			if (depenseMaxTmp[i]->getType() == groupe) {
+
+				total += static_cast<DepenseGroupe*>(depenseMaxTmp[i])->getMontantPersonnel();
+			}
+		double tauxTmp = static_cast<UtilisateurPremium*>(utilisateurs_[indexMax])->getTaux();
+		static_cast<UtilisateurPremium*>(utilisateurs_[indexMax])->ajouterInteret(tauxTmp * total);
 
 		// On incremente le nombre de comptes mis a 0
 		count++;
@@ -192,11 +213,18 @@ void Groupe::equilibrerComptes() {
 
 void Groupe::calculerTotalDepense() {
 
-	for (unsigned i = 0; i < utilisateurs_.size(); i++)
-		utilisateurs_[i]->calculerTotalDepenses();
+	for (unsigned i = 0; i < utilisateurs_.size(); i++){
 
-	for (unsigned i = 0; i < depenses_.size(); i++)
+		utilisateurs_[i]->calculerTotalDepenses();
+		static_cast<UtilisateurPremium*>(utilisateurs_[i])->calculerTaux();
+		double tauxTmp = static_cast<UtilisateurPremium*>(utilisateurs_[i])->getTaux();
+		static_cast<UtilisateurPremium*>(utilisateurs_[i])->ajouterInteret(tauxTmp * utilisateurs_[i]->getTotalDepenses());
+}
+	for (unsigned i = 0; i < depenses_.size(); i++) {
+		
 		totalDepenses_ += depenses_[i]->getMontantPersonnel();
+
+	}
 	
 }
 
@@ -205,7 +233,7 @@ ostream & operator<<(ostream& os, const Groupe& groupe)
 {
 	os << "L'evenement nomme : " << groupe.nom_ << " a coute un total (en terme depenses groupees) : "
 		<< groupe.getTotalDepenses()
-		<< " voici les utilisateurs et toutes leurs depenses : " << endl;
+		<< " voici les utilisateurs et toutes leurs depenses : " << endl << endl;
 
 	for (unsigned i = 0; i < groupe.utilisateurs_.size(); i++) {
 		
