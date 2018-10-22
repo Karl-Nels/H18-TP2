@@ -5,11 +5,7 @@
 UtilisateurPremium::UtilisateurPremium(const string& nom): Utilisateur::Utilisateur(nom, Premium), joursRestants_(30),taux_(0.05) {
 }
 
-UtilisateurPremium::UtilisateurPremium(const Utilisateur& utilisateur) {
-
-	this->Utilisateur::Utilisateur(utilisateur);
-	this->joursRestants_ = 30;
-	this->taux_= 0.05;
+UtilisateurPremium::UtilisateurPremium(const Utilisateur& utilisateur): Utilisateur(utilisateur), joursRestants_(30),taux_(0.05) {
 
 }
 

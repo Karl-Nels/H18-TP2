@@ -123,8 +123,14 @@ int main() {
 	vacances.ajouterDepense(d8, louis, payePour3); 
 	
 	vacances.calculerTotalDepense();
-	//vacances.equilibrerComptes(); 
+	vacances.equilibrerComptes(); 
 
+	vector<Transfert *> trans = vacances.getTransferts();
+	for (unsigned i = 0; i < trans.size(); i++) {
+		cout << trans[i]->getExpediteur();
+		cout << trans[i]->getReceveur();
+	}
+		
 	//ajout d'un utilisateur regulier deja groupe au groupe collocation
 	collocation += clemence; 
 

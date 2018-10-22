@@ -89,14 +89,7 @@ Groupe& Groupe::ajouterDepense(Depense* depense, Utilisateur* payePar, vector<Ut
 				payePour[i]->operator+=(cDepense);
 				payePour[i]->calculerTotalDepenses();
 				depenses_.push_back(cDepense);
-				/*double taux =static_cast<UtilisateurPremium*>(payePour[i])->getTaux();
-				static_cast<UtilisateurPremium*>(payePour[i])->ajouterInteret(taux * total);*/
-
-				/*if (payePour[i]->getType() == Premium) {
-
-					static_cast<UtilisateurPremium *>(payePour[i])->calculerTaux();
-						
-				}*/
+				comptes_.push_back(payePour[i]->getTotalDepenses());
 					
 
 			}
@@ -174,12 +167,6 @@ void Groupe::equilibrerComptes() {
 			comptes_[indexMax] += min;
 			comptes_[indexMin] = 0;
 
-		/*	if (utilisateurs_[indexMax]->getType() == Premium) {
-				double tauxTmp = static_cast<UtilisateurPremium*>(utilisateurs_[indexMax])->getTaux();
-				static_cast<UtilisateurPremium*>(utilisateurs_[indexMax])->ajouterInteret(tauxTmp * utilisateurs_[indexMax]->getTotalDepenses());
-
-			}*/
-
 		}
 		else if (-min > max  && min != 0 && max != 0) {
 			transferts_.push_back(new Transfert(max, utilisateurs_[indexMin], utilisateurs_[indexMax]));
@@ -219,6 +206,7 @@ void Groupe::calculerTotalDepense() {
 		static_cast<UtilisateurPremium*>(utilisateurs_[i])->calculerTaux();
 		double tauxTmp = static_cast<UtilisateurPremium*>(utilisateurs_[i])->getTaux();
 		static_cast<UtilisateurPremium*>(utilisateurs_[i])->ajouterInteret(tauxTmp * utilisateurs_[i]->getTotalDepenses());
+
 }
 	for (unsigned i = 0; i < depenses_.size(); i++) {
 		
@@ -241,8 +229,12 @@ ostream & operator<<(ostream& os, const Groupe& groupe)
 			os << *(static_cast<UtilisateurPremium*>(groupe.utilisateurs_[i])) << endl << endl;
 		else
 			os << *(static_cast<UtilisateurRegulier*>(groupe.utilisateurs_[i])) << endl << endl;
-
 		}
+
+	os << "Les transferts suivant ont ete realiser pour equilibrer:" << endl;
+
+	for (unsigned i = 0; i < groupe.transferts_.size(); i++)
+		os << *groupe.transferts_[i];
 
 
 		return os;

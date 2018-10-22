@@ -1,4 +1,4 @@
-/********************************************
+	/********************************************
 * Titre: Travail pratique #3 - utilisateurRegulier.h
 * Date premiere version : 2 octobre 2018
 * Auteur: David Dratwa

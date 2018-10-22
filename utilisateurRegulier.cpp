@@ -5,11 +5,7 @@ UtilisateurRegulier::UtilisateurRegulier(const string& nom): estGroupe_(false),U
 	//this->ajouterInteret(TAUX_REGULIER);
 }
 
-UtilisateurRegulier::UtilisateurRegulier(const Utilisateur& utilisateur) {
-
-//	*this = utilisateur;
-	this->Utilisateur::Utilisateur(utilisateur);
-	this->estGroupe_ = false;
+UtilisateurRegulier::UtilisateurRegulier(const Utilisateur& utilisateur): Utilisateur(utilisateur), estGroupe_(false) {
 
 }
 

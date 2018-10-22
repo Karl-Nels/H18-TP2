@@ -7,15 +7,7 @@ DepenseGroupe::DepenseGroupe(const string& nom, double montant,
 {
 	
 }
-
-DepenseGroupe::DepenseGroupe(const DepenseGroupe& depense) {
-
-	this->setNom(depense.getNom());
-	this->setMontant(depense.getMontant());
-	this->setType(depense.getType());
-	this->setLieu(*depense.getLieu());
-	nombreParticipants_ = depense.nombreParticipants_;
-}
+DepenseGroupe::DepenseGroupe(const DepenseGroupe& depense): Depense(depense),nombreParticipants_(0) {}
 
 // accesseurs
 unsigned int DepenseGroupe::getNombreParticipants() const {
